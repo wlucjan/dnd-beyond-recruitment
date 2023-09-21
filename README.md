@@ -1,73 +1,63 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# DDB Back End Developer Challenge
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+### Overview
+This task focuses on creating an API for managing a player character's Hit Points (HP) within our game. The API will enable clients to perform various operations related to HP, including dealing damage of different types, considering character resistances and immunities, healing, and adding temporary Hit Points. The task requires building a service that interacts with HP data provided in the `briv.json` file and persists throughout the application's lifetime.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+### Task Requirements
 
-## Description
+#### API Operations
+1. **Deal Damage**
+    - Implement the ability for clients to deal damage of different types (e.g., bludgeoning, fire) to a player character.
+    - Ensure that the API calculates damage while considering character resistances and immunities.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+    > Suppose a player character is hit by an attack that deals Piercing damage, and the attacker rolls a 14 on the damage's Hit Die (with a Piercing damage type). `[Character Hit Points - damage: 25 - 14 = 11]`
 
-## Installation
+2. **Heal**
+    - Enable clients to heal a player character, increasing their HP.
 
-```bash
-$ npm install
-```
+3. **Add Temporary Hit Points**
+    - Implement the functionality to add temporary Hit Points to a player character.
+    - Ensure that temporary Hit Points follow the rules: they are not additive, always taking the higher value, and cannot be healed.
 
-## Running the app
+    > Imagine a player character named "Eldric" currently has 11 Hit Points (HP) and no temporary Hit Points. He finds a magical item that grants him an additional 10 HP during the next fight. When the attacker rolls a 19, Eldric will lose all 10 temporary Hit Points and 9 from his player HP.
 
-```bash
-# development
-$ npm run start
+#### Implementation Details
+- Build the API using your preferred technology stack.
+- Ensure that character information, including HP, is initialized during the start of the application. Developers do not need to calculate HP; it is provided in the `briv.json` file.
+- Retrieve character information, including HP, from the `briv.json` file.
 
-# watch mode
-$ npm run start:dev
 
-# production mode
-$ npm run start:prod
-```
+#### Data Storage
+- You have the flexibility to choose the data storage method for character information.
 
-## Test
+### Instructions to Run Locally
+1. Clone the repository or obtain the project files.
+2. Install any required dependencies using your preferred package manager.
+3. Configure the API with necessary settings (e.g., database connection if applicable).
+4. Build and run the API service locally.
+5. Utilize the provided `briv.json` file as a sample character data, including HP, for testing the API.
 
-```bash
-# unit tests
-$ npm run test
+### Additional Notes
+- Temporary Hit Points take precedence over the regular HP pool and cannot be healed.
+- Characters with resistance take half damage, while characters with immunity take no damage from a damage type.
+- Use character filename as identifier
 
-# e2e tests
-$ npm run test:e2e
+#### Possible Damage Types in D&D
+Here is a list of possible damage types that can occur in Dungeons & Dragons (D&D). These damage types should be considered when dealing damage or implementing character resistances and immunities:
+- Bludgeoning
+- Piercing
+- Slashing
+- Fire
+- Cold
+- Acid
+- Thunder
+- Lightning
+- Poison
+- Radiant
+- Necrotic
+- Psychic
+- Force
 
-# test coverage
-$ npm run test:cov
-```
+If you have any questions or require clarification, please reach out to your Wizards of the Coast contact, and we will provide prompt assistance.
 
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+Good luck with the implementation!

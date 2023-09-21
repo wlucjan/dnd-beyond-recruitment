@@ -20,20 +20,23 @@ jobs:
         with:
           fetch-depth: 0
           ref: 'main'
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.7.6
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-          cache-dependency-path: package-lock.json
+          cache: 'pnpm'
+          cache-dependency-path: pnpm-lock.yaml
       - name: Install packages
-        run: npm install
+        run: pnpm install
 
       - name: Run eslint tests
-        run: npm run lint
+        run: pnpm run lint
 
       - name: Build apps
-        run: npm run build
+        run: pnpm run build
 
       - name: Run unit tests
-        run: npm run test
+        run: pnpm run test

@@ -8,7 +8,11 @@
       "dynamicImport": true
     },
     "target": "es2022",
-    "baseUrl": "."
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "@modules/*": ["src/modules/*"]
+    }
   },
   "module": {
     "type": "commonjs"

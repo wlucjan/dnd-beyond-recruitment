@@ -12,6 +12,17 @@ pnpm start
 pnpm test
 ```
 
+## Missing parts
+
+- Swagger doc generation
+- Exceptions catching and mapping based on environment
+- Input DTO Validation
+- Dockerization
+- Securing API with Helmet
+- Healthchecks
+- Wiring with out of process database (currently in-memory repository is used and all changes are lost once app is stopped; it would require also chang for the initialization process, to check if character with given ID still exists)
+- Merging Normal and Temporary Hit Points behind single HitPoints abstraction
+
 # DDB Back End Developer Challenge
 
 ### Overview

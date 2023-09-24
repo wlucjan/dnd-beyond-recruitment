@@ -14,7 +14,8 @@
     "outDir": "./dist",
     "paths": {
       "@/*": ["src/*"],
-      "@modules/*": ["src/modules/*"]
+      "@modules/*": ["src/modules/*"],
+      "@fixtures/*": ["src/fixtures/*"]
     },
     "removeComments": true,
     "resolveJsonModule": true,

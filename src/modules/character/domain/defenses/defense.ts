@@ -1,4 +1,4 @@
-import { SerializedDefense } from '../character/serialized-character';
+import { SerializedDefense } from '../../infrastructure/factories/initial-serialized-character';
 import { DamageType, isDamageType } from '../damage/damage';
 import { UnknownDefenseType } from './errors/unknown-defense-type.error';
 

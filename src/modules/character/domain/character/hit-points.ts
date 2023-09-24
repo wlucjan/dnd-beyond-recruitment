@@ -1,12 +1,6 @@
 import { Amount } from '../core/amount';
 
-export interface HitPoints {
-  currentAmount: Amount;
-  heal(amount: Amount): HitPoints;
-  dealDamage(damage: Amount): HitPoints;
-}
-
-export class NormalHitPoints implements HitPoints {
+export class NormalHitPoints {
   private constructor(
     private readonly _maxAmount: Amount,
     private readonly _currentAmount: Amount,
@@ -18,7 +12,7 @@ export class NormalHitPoints implements HitPoints {
       currentAmount !== null &&
       currentAmount > maxAmount
     ) {
-      throw new RangeError(
+      throw new Error(
         `Current hit points cannot be greater than max hit points`,
       );
     }
@@ -31,6 +25,10 @@ export class NormalHitPoints implements HitPoints {
 
   get currentAmount(): Amount {
     return this._currentAmount;
+  }
+
+  get maxAmount(): Amount {
+    return this._maxAmount;
   }
 
   heal(healedAmount: Amount): NormalHitPoints {

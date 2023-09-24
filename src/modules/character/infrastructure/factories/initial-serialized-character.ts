@@ -29,7 +29,7 @@ export interface SerializedDefense {
   defense: string;
 }
 
-export interface SerializedCharacter {
+export interface InitialSerializedCharacter {
   name: string;
   level: number;
   hitPoints: number;

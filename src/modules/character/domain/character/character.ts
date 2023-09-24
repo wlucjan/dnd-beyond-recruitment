@@ -3,18 +3,30 @@ import { Damage } from '../damage/damage';
 import { DamageCalculator } from '../damage/damage-calculator';
 import { DamageModifiers } from '../damage/damage-modifiers';
 import { Defense } from '../defenses/defense';
-import { HitPoints, NormalHitPoints } from './hit-points';
+import { NormalHitPoints } from './hit-points';
 import { HitPointsWithTemporaryHitPoints } from './hit-points-with-temporary-hit-points';
 
 export class Character {
   constructor(
     private readonly damageCalculator: DamageCalculator,
-    private _hitPoints: HitPoints = NormalHitPoints.from(0),
-    private defenses: Defense[],
+    private _id: string,
+    private _hitPoints: HitPointsWithTemporaryHitPoints = HitPointsWithTemporaryHitPoints.from(
+      NormalHitPoints.from(0),
+      Amount.from(0),
+    ),
+    private _defenses: Defense[],
   ) {}
+
+  get id() {
+    return this._id;
+  }
 
   get hitPoints() {
     return this._hitPoints;
+  }
+
+  get defenses() {
+    return this._defenses;
   }
 
   heal(amount: Amount): void {
@@ -24,7 +36,7 @@ export class Character {
   dealDamage(damageParts: Damage[]): void {
     const damageAfterDefenses = this.damageCalculator.calculate(
       damageParts,
-      DamageModifiers.from(this.defenses),
+      DamageModifiers.from(this._defenses),
     );
 
     this._hitPoints = damageAfterDefenses.reduce(
@@ -34,9 +46,6 @@ export class Character {
   }
 
   conferTemporaryHitpoints(amount: Amount): void {
-    this._hitPoints = HitPointsWithTemporaryHitPoints.from(
-      this.hitPoints,
-      amount,
-    );
+    this._hitPoints = this.hitPoints.confer(amount);
   }
 }

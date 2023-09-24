@@ -1,21 +1,32 @@
 import { Amount } from '../core/amount';
-import { HitPoints } from './hit-points';
+import { NormalHitPoints } from './hit-points';
 
-export class HitPointsWithTemporaryHitPoints implements HitPoints {
+export class HitPointsWithTemporaryHitPoints {
   private constructor(
-    private readonly hitPoints: HitPoints,
+    private readonly hitPoints: NormalHitPoints,
     private readonly _amount: Amount = Amount.from(0),
   ) {}
 
   static from(
-    hitPoints: HitPoints,
-    amount: Amount,
+    hitPoints: NormalHitPoints,
+    amount?: Amount,
   ): HitPointsWithTemporaryHitPoints {
-    return new HitPointsWithTemporaryHitPoints(hitPoints, amount);
+    return new HitPointsWithTemporaryHitPoints(
+      hitPoints,
+      amount ?? Amount.from(0),
+    );
   }
 
   get currentAmount(): Amount {
-    return this.hitPoints.currentAmount.add(this._amount);
+    return this.hitPoints.currentAmount;
+  }
+
+  get maxAmount(): Amount {
+    return this.hitPoints.maxAmount;
+  }
+
+  get temporaryAmount(): Amount {
+    return this._amount;
   }
 
   confer(amount: Amount): HitPointsWithTemporaryHitPoints {

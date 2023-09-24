@@ -1,0 +1,15 @@
+@url=localhost:3000
+@id=briv
+
+###
+POST http://{{url}}/characters/{{id}}/damage HTTP/1.1
+content-type: application/json
+
+{
+    "damageParts": [
+        {
+            "type": "slashing",
+            "amount": 5
+        }
+    ]
+}

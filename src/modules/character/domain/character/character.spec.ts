@@ -4,6 +4,7 @@ import { CharacterDamageCalculator } from '../damage/damage-calculator';
 import { Defense } from '../defenses/defense';
 import { Character } from './character';
 import { NormalHitPoints } from './hit-points';
+import { HitPointsWithTemporaryHitPoints } from './hit-points-with-temporary-hit-points';
 
 describe('Character', () => {
   describe('dealDamage', () => {
@@ -11,7 +12,8 @@ describe('Character', () => {
       // Given
       const character = new Character(
         new CharacterDamageCalculator(),
-        NormalHitPoints.from(25),
+        'luc',
+        HitPointsWithTemporaryHitPoints.from(NormalHitPoints.from(25)),
         [
           new Defense('resistance', 'slashing'),
           new Defense('immunity', 'fire'),
@@ -25,7 +27,9 @@ describe('Character', () => {
       ]);
 
       // Then
-      expect(character.hitPoints).toEqual(NormalHitPoints.from(25, 20));
+      expect(character.hitPoints).toEqual(
+        HitPointsWithTemporaryHitPoints.from(NormalHitPoints.from(25, 20)),
+      );
     });
   });
 
@@ -34,7 +38,8 @@ describe('Character', () => {
       // Given
       const character = new Character(
         new CharacterDamageCalculator(),
-        NormalHitPoints.from(25, 20),
+        'luc',
+        HitPointsWithTemporaryHitPoints.from(NormalHitPoints.from(25, 20)),
         [
           new Defense('resistance', 'slashing'),
           new Defense('immunity', 'fire'),
@@ -45,7 +50,9 @@ describe('Character', () => {
       character.heal(Amount.from(5));
 
       // Then
-      expect(character.hitPoints).toEqual(NormalHitPoints.from(25));
+      expect(character.hitPoints).toEqual(
+        HitPointsWithTemporaryHitPoints.from(NormalHitPoints.from(25)),
+      );
     });
   });
 
@@ -54,7 +61,8 @@ describe('Character', () => {
       // Given
       const character = new Character(
         new CharacterDamageCalculator(),
-        NormalHitPoints.from(25, 20),
+        'luc',
+        HitPointsWithTemporaryHitPoints.from(NormalHitPoints.from(25, 20)),
         [
           new Defense('resistance', 'slashing'),
           new Defense('immunity', 'fire'),
@@ -67,6 +75,7 @@ describe('Character', () => {
 
       // Then
       expect(character.hitPoints.currentAmount).toEqual(Amount.from(20));
+      expect(character.hitPoints.temporaryAmount).toEqual(Amount.from(0));
     });
   });
 });

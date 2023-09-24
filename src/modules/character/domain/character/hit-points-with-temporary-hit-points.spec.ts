@@ -7,12 +7,9 @@ describe('HitPointsWithTemporaryHitPoints', () => {
     it.each([
       {
         current: () =>
-          HitPointsWithTemporaryHitPoints.from(
-            NormalHitPoints.from(20),
-            Amount.from(0),
-          ),
+          HitPointsWithTemporaryHitPoints.from(NormalHitPoints.from(20)),
         confered: 10,
-        expected: 30,
+        expected: 10,
       },
       {
         current: () =>
@@ -21,7 +18,7 @@ describe('HitPointsWithTemporaryHitPoints', () => {
             Amount.from(8),
           ),
         confered: 10,
-        expected: 30,
+        expected: 10,
       },
       {
         current: () =>
@@ -30,7 +27,7 @@ describe('HitPointsWithTemporaryHitPoints', () => {
             Amount.from(12),
           ),
         confered: 10,
-        expected: 32,
+        expected: 12,
       },
     ])(
       'should take the larger of amounts',
@@ -42,7 +39,7 @@ describe('HitPointsWithTemporaryHitPoints', () => {
         const result = temporaryHitPoints.confer(Amount.from(confered));
 
         // Then
-        expect(result.currentAmount.value).toEqual(expected);
+        expect(result.temporaryAmount.value).toEqual(expected);
       },
     );
   });
@@ -60,7 +57,8 @@ describe('HitPointsWithTemporaryHitPoints', () => {
       const result = hitPointsWithTemporaryHitPoints.heal(Amount.from(15));
 
       // Then
-      expect(result.currentAmount.value).toEqual(25);
+      expect(result.currentAmount.value).toEqual(20);
+      expect(result.temporaryAmount.value).toEqual(5);
     });
   });
 
@@ -68,23 +66,27 @@ describe('HitPointsWithTemporaryHitPoints', () => {
     it.each([
       {
         damageDealt: 5,
-        expectedHitPointsAmount: 15,
+        expectedCurrent: 10,
+        expectedTemporary: 5,
       },
       {
         damageDealt: 10,
-        expectedHitPointsAmount: 10,
+        expectedCurrent: 10,
+        expectedTemporary: 0,
       },
       {
         damageDealt: 0,
-        expectedHitPointsAmount: 20,
+        expectedCurrent: 10,
+        expectedTemporary: 10,
       },
       {
         damageDealt: 15,
-        expectedHitPointsAmount: 5,
+        expectedCurrent: 5,
+        expectedTemporary: 0,
       },
     ])(
       'should lose temporary hit points before normal hit points',
-      async ({ damageDealt, expectedHitPointsAmount }) => {
+      async ({ damageDealt, expectedCurrent, expectedTemporary }) => {
         // Given
         const hitPointsWithTemporaryHitPoints =
           HitPointsWithTemporaryHitPoints.from(
@@ -98,7 +100,8 @@ describe('HitPointsWithTemporaryHitPoints', () => {
         );
 
         // Then
-        expect(result.currentAmount.value).toEqual(expectedHitPointsAmount);
+        expect(result.currentAmount.value).toEqual(expectedCurrent);
+        expect(result.temporaryAmount.value).toEqual(expectedTemporary);
       },
     );
   });

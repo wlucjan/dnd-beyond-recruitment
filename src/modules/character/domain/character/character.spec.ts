@@ -57,6 +57,26 @@ describe('Character', () => {
   });
 
   describe('conferTemporaryHitPoints', () => {
+    it('should confer temporary hitpoints', () => {
+      // Given
+      const character = new Character(
+        new CharacterDamageCalculator(),
+        'luc',
+        HitPointsWithTemporaryHitPoints.from(NormalHitPoints.from(25, 20)),
+        [
+          new Defense('resistance', 'slashing'),
+          new Defense('immunity', 'fire'),
+        ],
+      );
+
+      // When
+      character.conferTemporaryHitpoints(Amount.from(10));
+
+      // Then
+      expect(character.hitPoints.currentAmount).toEqual(Amount.from(20));
+      expect(character.hitPoints.temporaryAmount).toEqual(Amount.from(10));
+    });
+
     it('should use temporary hit points first', () => {
       // Given
       const character = new Character(

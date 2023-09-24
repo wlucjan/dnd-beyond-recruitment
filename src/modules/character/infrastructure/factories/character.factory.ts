@@ -16,7 +16,7 @@ export class CharacterFactory {
           characterEntity.hitPoints.max,
           characterEntity.hitPoints.current,
         ),
-        Amount.from(0),
+        Amount.from(characterEntity.hitPoints.temporary),
       ),
       characterEntity.defenses.map((serializedDefence) =>
         DefenseFactory.fromSerialized(serializedDefence),

@@ -13,3 +13,19 @@ content-type: application/json
         }
     ]
 }
+
+###
+POST http://{{url}}/characters/{{id}}/heal HTTP/1.1
+content-type: application/json
+
+{
+    "amount": 3
+}
+
+###
+POST http://{{url}}/characters/{{id}}/temporary-hit-points HTTP/1.1
+content-type: application/json
+
+{
+    "amount": 5
+}

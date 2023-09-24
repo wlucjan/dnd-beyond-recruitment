@@ -4,39 +4,29 @@ import {
   CHARACTER_REPOSITORY,
   CharacterRepository,
 } from '../../domain/character/character.repository';
-import { DamageDealt } from '../../domain/damage/damage';
+import { Amount } from '../../domain/core/amount';
 import { CharacterDto } from '../dtos/character.dto';
 
-export class DamageDealtDto {
-  type: string;
-  amount: number;
-}
-export class DealDamageCommand {
+export class HealCommand {
   constructor(
     public readonly characterId: string,
-    public readonly damageParts: DamageDealtDto[],
+    public readonly amount: number,
   ) {}
 }
 
-@CommandHandler(DealDamageCommand)
-export class DealDamageCommandHandler
-  implements ICommandHandler<DealDamageCommand>
-{
+@CommandHandler(HealCommand)
+export class HealCommandHandler implements ICommandHandler<HealCommand> {
   constructor(
     @Inject(CHARACTER_REPOSITORY)
     private readonly characterRepository: CharacterRepository,
   ) {}
 
-  async execute(command: DealDamageCommand): Promise<CharacterDto> {
+  async execute(command: HealCommand): Promise<CharacterDto> {
     const character = await this.characterRepository.findOne(
       command.characterId,
     );
 
-    character.dealDamage(
-      command.damageParts.map((damage) =>
-        DamageDealt.from(damage.type, damage.amount),
-      ),
-    );
+    character.heal(Amount.from(command.amount));
 
     await this.characterRepository.save(character);
 

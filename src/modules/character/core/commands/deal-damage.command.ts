@@ -6,6 +6,7 @@ import {
 } from '../../domain/character/character.repository';
 import { DamageDealt } from '../../domain/damage/damage';
 import { CharacterDto } from '../dtos/character.dto';
+import { CharacterNotFound } from '../errors/character-not-found.error';
 
 export class DamageDealtDto {
   type: string;
@@ -31,6 +32,10 @@ export class DealDamageCommandHandler
     const character = await this.characterRepository.findOne(
       command.characterId,
     );
+
+    if (!character) {
+      throw new CharacterNotFound();
+    }
 
     character.dealDamage(
       command.damageParts.map((damage) =>

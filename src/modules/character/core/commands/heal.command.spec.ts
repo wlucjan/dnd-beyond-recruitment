@@ -9,6 +9,7 @@ import { NormalHitPoints } from '../../domain/character/hit-points';
 import { HitPointsWithTemporaryHitPoints } from '../../domain/character/hit-points-with-temporary-hit-points';
 import { CharacterDamageCalculator } from '../../domain/damage/damage-calculator';
 import { CharacterInMemoryRepository } from '../../infrastructure/repositories/character.in-memory.repository';
+import { CharacterNotFound } from '../errors/character-not-found.error';
 import { HealCommand, HealCommandHandler } from './heal.command';
 
 describe('HealCommandHandler', () => {
@@ -54,5 +55,14 @@ describe('HealCommandHandler', () => {
     expect(savedCharacter.hitPoints.maxAmount.value).toEqual(20);
     expect(savedCharacter.hitPoints.currentAmount.value).toEqual(20);
     expect(savedCharacter.hitPoints.temporaryAmount.value).toEqual(0);
+  });
+
+  it('should throw NotFound error if character does not exist', async () => {
+    // When & Then
+    const command = new HealCommand('unknown', 10);
+
+    await expect(handler.execute(command)).rejects.toThrowError(
+      CharacterNotFound,
+    );
   });
 });

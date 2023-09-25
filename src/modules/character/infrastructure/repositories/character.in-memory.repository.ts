@@ -6,8 +6,14 @@ import { CharacterFactory } from '../factories/character.factory';
 export class CharacterInMemoryRepository implements CharacterRepository {
   private entities: Map<string, CharacterEntity> = new Map();
 
-  async findOne(id: string): Promise<Character> {
-    return CharacterFactory.fromEntity(this.entities.get(id));
+  async findOne(id: string): Promise<Character | undefined> {
+    const entity = this.entities.get(id);
+
+    if (!entity) {
+      return undefined;
+    }
+
+    return CharacterFactory.fromEntity(entity);
   }
 
   async save(character: Character): Promise<void> {

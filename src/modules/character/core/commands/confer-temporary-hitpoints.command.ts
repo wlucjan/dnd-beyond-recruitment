@@ -6,6 +6,7 @@ import {
 } from '../../domain/character/character.repository';
 import { Amount } from '../../domain/core/amount';
 import { CharacterDto } from '../dtos/character.dto';
+import { CharacterNotFound } from '../errors/character-not-found.error';
 
 export class ConferTemporaryHitpointsCommand {
   constructor(
@@ -29,6 +30,10 @@ export class ConferTemporaryHitpointsCommandHandler
     const character = await this.characterRepository.findOne(
       command.characterId,
     );
+
+    if (!character) {
+      throw new CharacterNotFound();
+    }
 
     character.conferTemporaryHitpoints(Amount.from(command.amount));
 

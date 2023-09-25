@@ -15,8 +15,6 @@ pnpm test
 ## Missing parts
 
 - Swagger doc generation
-- Exceptions catching and mapping based on environment
-- Input DTO Validation
 - Dockerization
 - Securing API with Helmet
 - Healthchecks
